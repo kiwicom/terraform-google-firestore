@@ -1,6 +1,6 @@
 resource "random_id" "firestore" {
   byte_length = 4
-  prefix      = "firestore-"
+  prefix      = "firestore-${var.labels.env}-"
 }
 
 locals {
