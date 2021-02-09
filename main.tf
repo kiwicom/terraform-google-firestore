@@ -19,6 +19,8 @@ locals {
       }
     ]
   ])
+  # members without duplicates
+  all_members = distinct(flatten(values(var.access)))
 }
 
 resource "google_project" "firestore" {
@@ -44,11 +46,9 @@ resource "google_app_engine_application" "firestore" {
 ### Permissions ###
 # Grant project viewer role to all members
 resource "google_project_iam_member" "project_viewer" {
-  for_each = {
-    for permission in local.iam_access : "${permission.member}}" => permission
-  }
+  for_each = toset(local.all_members)
   role    = "roles/viewer"
-  member  = each.value.member
+  member  = each.value
   project = google_project.firestore.project_id
 }
 
