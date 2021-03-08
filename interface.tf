@@ -43,7 +43,7 @@ variable "labels" {
   }
 
   validation {
-    condition     = contains(["prod", "sandbox"], var.labels["env"])
+    condition     = contains(["production", "sandbox"], var.labels["env"])
     error_message = "Label \"env\" is mandatory and can be: sandbox or production."
   }
   validation {
